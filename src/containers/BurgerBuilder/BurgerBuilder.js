@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import Aux from "../../hoc/Aux";
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/ui/Modal/Modal';
+import OrderSummary from '../../components/OrderSummary/OrderSummary'; 
 
 const INGREDIENT_PRICE = {
     cheese: 0.4,
     salad: 0.2,
     bacon: 0.3,
     meat: 0.5
-}
+} // global variable
 class BurgerBuilder extends Component {
     constructor (props) {
       super(props);
@@ -19,11 +21,14 @@ class BurgerBuilder extends Component {
               bacon: 0,
               salad: 0
           },
-          totalPrice: 0
+          totalPrice: 0,
+          isPurchasable: false,
+          purchasing: false 
       }
     }
 
     addIngredientHandler = (type) => {
+        console.log('add Ingredient hit');
        const updatedIngredients = {...this.state.ingredients};
        const newCount = this.state.ingredients[type] + 1;
        updatedIngredients[type] = newCount;
@@ -33,7 +38,8 @@ class BurgerBuilder extends Component {
        this.setState({
            ingredients: updatedIngredients,
            totalPrice: newPrice
-       });
+       }); // set state executes in async fashion
+       this.updatePurchaseState(updatedIngredients);
     }
 
     removeIngredientHandler = (type) => {
@@ -48,18 +54,58 @@ class BurgerBuilder extends Component {
                 ingredients: updatedIngredients,
                 totalPrice: newPrice
             });
+            this.updatePurchaseState(updatedIngredients);
         } else {
 
         }
+       
     }
+
+    updatePurchaseState = (ingredients) => {
+        //const ingredients = {...this.state.ingredients};
+        const sum =  Object.keys(ingredients).map( (igkey) => {
+                  return ingredients[igkey];
+        }).reduce((acc, el) => {
+            return acc + el
+        },0);
+        console.log('final sum of price', sum);
+        this.setState({
+            isPurchasable: sum > 0
+        });
+    }
+
+    // isOrderPlaced(e) {
+    //  console.log('is order placed', e);
+    // } 
+    // this method will not work properly if we trigger it through event
+    // it may not be able to bind the this keyword instead use fat arrow functions
+
+    isOrderPlaced = (e) => {
+        console.log('is order placed', e);
+        this.setState({purchasing: true});
+
+    }
+
+    cancelOrderHandler = () => {
+        this.setState({purchasing: false});
+    }
+
     render() {
         return (
             <Aux>
-                <Burger title='your burger' ingredients = {this.state.ingredients} finalPrice={this.state.totalPrice}></Burger>
+                <Modal show = {this.state.purchasing} cancelOrder = {this.cancelOrderHandler}>
+                    <OrderSummary ingredients={this.state.ingredients} cancelOrder = {this.cancelOrderHandler}/>
+                </Modal>        
+                <Burger title='your burger' 
+                        ingredients = {this.state.ingredients}
+                        finalPrice={this.state.totalPrice}>
+                </Burger> 
                 <BuildControls 
                   ingredientAdded = {this.addIngredientHandler}
                   ingredientRemoved = {this.removeIngredientHandler}
-                  disabled = {this.state.ingredients}/>
+                  disabled = {this.state.ingredients}
+                  btnDisabled = {this.state.isPurchasable}
+                  isOrdered = {(event) => this.isOrderPlaced(event)}/>
             </Aux>
         );
     };
