@@ -1,0 +1,21 @@
+.NavigationItems {
+
+}
+.NavigationItems ul {
+    list-style-type: none;
+    text-align: center;
+    display: flex;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.NavigationItems ul > li{
+     color: #fff;
+     padding: 8px 10px;
+}
+
+.NavigationItems ul > li > a{
+     color: #fff;
+     text-decoration: none;
+}
