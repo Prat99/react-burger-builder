@@ -58,9 +58,7 @@ class BurgerBuilder extends Component {
             });
             this.updatePurchaseState(updatedIngredients);
         } else {
-
         }
-
     }
 
     updatePurchaseState = (ingredients) => {
@@ -119,7 +117,7 @@ class BurgerBuilder extends Component {
         let queryParams = [];
         for (const key in this.state.ingredients) {
             if (this.state.ingredients.hasOwnProperty(key)) {
-                queryParams.push(`${encodeURIComponent(key)} = ${encodeURIComponent(this.state.ingredients[key])}`)
+                queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(this.state.ingredients[key])}`)
             }
         }
         console.log('complete query params', queryParams);
