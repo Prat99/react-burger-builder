@@ -1,10 +1,13 @@
 import React from 'react';
 import BurgerLogo from '../../../assets/burger-logo.png';
 import classes from './Logo.css';
+import { Link } from 'react-router-dom';
 const logo = () => {
   return (
       <div className={ classes.Logo}>
-          <img src={BurgerLogo} alt='burger builder logo'/>
+          <Link to='/'>
+              <img src={BurgerLogo} alt='burger builder logo' />
+          </Link>
       </div>
   )
 }

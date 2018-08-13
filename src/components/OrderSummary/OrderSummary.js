@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../ui/Button/Button';
-
+import { Link } from 'react-router-dom';
 const orderSummary = (props) => {
     const items = Object.keys(props.ingredients).map((item, i) => {
         return <li key={item}> <span style={{ textTransform: 'capitalize' }}>{item}: </span>
@@ -13,7 +13,9 @@ const orderSummary = (props) => {
             <ul>{items}</ul>
             <p>Continue to checkout</p>
             <Button btnType={'Danger'} close={props.cancelOrder}>Cancel</Button>
-            <Button btnType={'Success'} continue={props.continueOrder}>Continue</Button>
+            <Button btnType={'Success'} continue={props.continueOrder}>
+                <Link to={{ pathname: '/checkout'}} > Continue </Link>
+            </Button>
         </div>
     )
 }

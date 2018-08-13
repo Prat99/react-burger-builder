@@ -1,5 +1,5 @@
 .Burger {
-    width:32%;
+    width:40%;
     height: 475px;
     margin: auto;
     overflow: hidden;
@@ -7,5 +7,7 @@
     font-weight: bold;
     font-size: 1.2rem;
     max-width: 100%;
+    display: block;
+    margin-top: 60px;
 }
 
