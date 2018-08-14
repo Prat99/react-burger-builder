@@ -1,0 +1,16 @@
+.CustomerInfo {
+    width: 50%;
+    margin: 30px auto;
+    text-align: center;
+    background-color: #fdf6f6;
+    padding: 10px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+}
+
+.CustomerInfo input {
+    display: block;
+    width: 80%;
+    padding: 10px;
+    margin: 15px auto;
+}

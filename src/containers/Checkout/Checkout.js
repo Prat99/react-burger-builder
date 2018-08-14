@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import CustomerInfo from './CustomerInfo/CustomerInfo';
+import { Route } from 'react-router-dom';
 class Checkout extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ingredients: {
-                cheese: 1,
-                meat: 1,
-                bacon: 1,
-                salad: 1
-            }
+            ingredients: null,
+            totalPrice: null
         }
     }
-    
+
     closeHandler = () => {
         console.log(
             'close handler in checkout', this.props.history
@@ -23,28 +21,22 @@ class Checkout extends Component {
     continueHandler = () => {
         this.props.history.replace('/checkout/customer-info');
     }
-    componentDidMount() {
+
+
+    componentWillMount() {
         console.log(this.props);
-        const ingredients1 = {}
+        const ingredients = {}
         const params = new URLSearchParams(this.props.location.search);
-        
         for (const pa of params) {
-            console.log('!!!!!', pa);
-            ingredients1[pa[0].toString()] = +pa[1];
+            if (pa[0] === 'price') {
+                this.state.totalPrice = +pa[1];
+            } else {
+                ingredients[pa[0].toString()] = +pa[1];
+            }
         }
-        console.log('final ingredients', ingredients1);
         this.setState(
-            {ingredients: ingredients1}
+            { ingredients: ingredients }
         );
-        // this.setState({
-        //     ingredients: {
-        //         meat: 1,
-        //         bacon: 0,
-        //         cheese: 0,
-        //         salad: 0
-        //     }
-        // })
-        console.log('new state', this.state.ingredients);
     }
     render() {
         return (
@@ -52,7 +44,14 @@ class Checkout extends Component {
                 <CheckoutSummary
                     ingredients={this.state.ingredients}
                     continue={this.continueHandler}
-                    close={this.closeHandler} ></CheckoutSummary>
+                    close={this.closeHandler}>
+                </CheckoutSummary>
+                <Route path={this.props.match.path + '/customer-info'}
+                    render={() => (
+                        <CustomerInfo  {...this.props}
+                            ingredients={this.state.ingredients}
+                            price={this.state.totalPrice} />
+                    )} />
             </div>
         );
     }
