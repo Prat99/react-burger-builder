@@ -3,17 +3,6 @@ import Button from '../../../components/ui/Button/Button';
 import classes from './CustomerInfo.css';
 import axios from '../../../axios-orders';
 class CustomerInfo extends Component {
-//     state = {
-//     ingredients: null,
-//     totalPrice: null,
-//     loading: null
-//    }
-//    constructor(props) {
-//        super(props);
-//        this.state.ingredients = props.ingredients;
-//        this.state.totalPrice = props.price;
-//    }
-   
     orderCompleteHandler = () => {
         this.setState({ loading: true });
         const order = {
@@ -45,9 +34,9 @@ class CustomerInfo extends Component {
             <div className={classes.CustomerInfo}>
               <h4>Please fill the form</h4>
                 <form>
-                    <input name='name' placeholder='Enter your name' type='text' />
+                    {/* <input name='name' placeholder='Enter your name' type='text' />
                     <input name='name' placeholder='Enter your contact number' type='number' />
-                    <input name='name' placeholder='Enter your emailId' type='email' />
+                    <input name='name' placeholder='Enter your emailId' type='email' /> */}
                     <div style={{ color: '#000 !important' }}>
                         <Button color='#679088' btnType={'Success'} continue = {this.orderCompleteHandler}>Order</Button>
                     </div>
