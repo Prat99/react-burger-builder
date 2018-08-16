@@ -5,7 +5,6 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/ui/Modal/Modal';
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import Spinner from '../../components/ui/Spinner/Spinner';
-import axios from '../../axios-orders';
 
 const INGREDIENT_PRICE = {
     cheese: 0.4,

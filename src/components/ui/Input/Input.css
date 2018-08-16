@@ -1,0 +1,25 @@
+.inputDiv {
+    width: 100%;
+    margin: 10px auto;
+    box-sizing: border-box;
+
+}
+
+.inputElement {
+    display: block;
+    padding: 10px;
+    margin: 15px auto;
+    width:80%; 
+    text-transform: capitalize;
+}
+
+label {
+   color: #f17109;
+   text-align: left;
+}
+
+select {
+        width: 84% !important;
+    background: #fff;
+    text-transform: capitalize;
+}

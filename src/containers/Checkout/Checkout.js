@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import CustomerInfo from './CustomerInfo/CustomerInfo';
+import Modal from '../../components/ui/Modal/Modal';
 import { Route } from 'react-router-dom';
 class Checkout extends Component {
     constructor(props) {
@@ -20,6 +21,10 @@ class Checkout extends Component {
 
     continueHandler = () => {
         this.props.history.replace('/checkout/customer-info');
+    }
+
+    closeModalHandler = () => {
+        this.props.history.replace('/checkout');
     }
 
 
@@ -48,9 +53,11 @@ class Checkout extends Component {
                 </CheckoutSummary>
                 <Route path={this.props.match.path + '/customer-info'}
                     render={() => (
-                        <CustomerInfo  {...this.props}
-                            ingredients={this.state.ingredients}
-                            price={this.state.totalPrice} />
+                        <Modal show={this.continueHandler} cancelOrder={this.closeModalHandler}>
+                            <CustomerInfo  {...this.props}
+                                ingredients={this.state.ingredients}
+                                price={this.state.totalPrice} />
+                        </Modal>
                     )} />
             </div>
         );
