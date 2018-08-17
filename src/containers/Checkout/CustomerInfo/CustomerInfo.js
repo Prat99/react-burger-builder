@@ -17,7 +17,8 @@ class CustomerInfo extends Component {
                 validationRules: {
                     required: true,
                 },
-                isValid: false
+                isValid: false,
+                istouched: false,
             },
             street: {
                 elementtype: 'input',
@@ -30,7 +31,8 @@ class CustomerInfo extends Component {
                 validationRules: {
                     required: true,
                 },
-                isValid: false
+                isValid: false,
+                istouched: false
             },
             zipcode: {
                 elementtype: 'input',
@@ -46,7 +48,8 @@ class CustomerInfo extends Component {
                     minLength: 3,
                     maxLength: 6
                 },
-                isValid: false
+                isValid: false,
+                istouched: false
             },
             country: {
                 elementtype: 'input',
@@ -59,7 +62,8 @@ class CustomerInfo extends Component {
                 validationRules: {
                     required: true,
                 },
-                isValid: false
+                isValid: false,
+                istouched: false
             },
             email: {
                 elementtype: 'input',
@@ -72,7 +76,8 @@ class CustomerInfo extends Component {
                 validationRules: {
                     required: true,
                 },
-                isValid: false
+                isValid: false,
+                istouched: false,
             },
             deliveryMethod: {
                 elementtype: 'select',
@@ -81,42 +86,43 @@ class CustomerInfo extends Component {
                     label: 'Delivery Option',
                     options: [{ value: 'fastest', displayValue: 'fastest' }, { value: 'cheapest', displayValue: 'cheapest' }]
                 },
-                validationRules: {
-                    required: true,
-                },
-                isValid: false
-            },
-        }
+            }
+        },
+        isFormValid: false
     }
     orderCompleteHandler = () => {
-        this.setState({ loading: true });
-        const customerData = {};
-        for (const key in this.state.orderForm) {
-            if (this.state.orderForm.hasOwnProperty(key)) {
-                customerData[key] = this.state.orderForm[key].elementconfig.value;
+        if(this.state.orderForm.isFormValid) {
+            this.setState({ loading: true });
+            const customerData = {};
+            for (const key in this.state.orderForm) {
+                if (this.state.orderForm.hasOwnProperty(key)) {
+                    customerData[key] = this.state.orderForm[key].elementconfig.value;
+                }
             }
+            const order = {
+                ingredients: this.props.ingredients,
+                price: this.props.price,
+                customerData: customerData
+            }
+            axios.post('/order.json', order)
+                .then((response) => {
+                    console.log('order response', response);
+                    this.setState({ loading: false });
+                })
+                .catch((error) => {
+                    this.setState({ loading: false });
+                    console.log('some error occured', error);
+                })
+            this.props.history.push('/thankyou')
+        } else {
+            alert('wrong input');
         }
-        const order = {
-            ingredients: this.props.ingredients,
-            price: this.props.price,
-            customerData: customerData
-        }
-        axios.post('/order.json', order)
-            .then((response) => {
-                console.log('order response', response);
-                this.setState({ loading: false });
-            })
-            .catch((error) => {
-                this.setState({ loading: false });
-                console.log('some error occured', error);
-            })
-        this.props.history.push('/thankyou')
     }
 
     checkValidty = (value, rules) => {
         let isValid = false;
 
-        if(rules.required) {
+        if (rules.required) {
             isValid = value.trim() !== '';
         }
         if (rules.minLength) {
@@ -126,6 +132,17 @@ class CustomerInfo extends Component {
             isValid = value.length <= rules.maxLength && isValid;
         }
         return isValid;
+    }
+
+    checkFormValidty = () => {
+        const form = this.state.orderForm;
+        for (const key in form) {
+            if (!form[key].validationRules && form[key].isValid) {
+                this.setState({isFormValid: false});
+            } else {
+                this.setState({ isFormValid: true });
+            }
+        }
     }
 
     inputValueChange = (event, inputIdentifier) => {
@@ -144,10 +161,13 @@ class CustomerInfo extends Component {
         const updatedFormElement = {
             ...updatedOrderForm[inputIdentifier]
         };
+        updatedFormElement.istouched = true;
         const updatedFormElementConfig = { ...updatedFormElement.elementconfig }
-        
+
         updatedFormElementConfig.value = event.target.value;
-        updatedFormElement.isValid = this.checkValidty(updatedFormElementConfig.value, updatedFormElement.validationRules)
+        if (updatedFormElement.validationRules) {
+            updatedFormElement.isValid = this.checkValidty(updatedFormElementConfig.value, updatedFormElement.validationRules)
+        }
         updatedFormElement.elementconfig = updatedFormElementConfig;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
         console.log('updated form ', updatedFormElement);
@@ -164,6 +184,9 @@ class CustomerInfo extends Component {
                     inputtype={this.state.orderForm[key].elementtype}
                     label={this.state.orderForm[key].elementconfig.label}
                     changed={(event) => this.inputValueChange(event, key)}
+                    invalid={!this.state.orderForm[key].isValid}
+                    istouched={this.state.orderForm[key].istouched}
+                    shouldValidate={this.state.orderForm[key].validationRules}
                     {...this.state.orderForm[key]} />
                 formsElementArray.push(temp);
             }

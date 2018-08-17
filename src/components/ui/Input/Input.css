@@ -13,6 +13,11 @@
     text-transform: capitalize;
 }
 
+.invalid {
+    border: 1px solid red;
+    background: #e7b2b2;
+}
+
 label {
    color: #f17109;
    text-align: left;
@@ -23,3 +28,7 @@ select {
     background: #fff;
     text-transform: capitalize;
 }
+.validationError {
+    color: red;
+    margin: 5px 0;
+} 
