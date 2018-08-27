@@ -15,11 +15,15 @@ const burger = (props) => {
     }
     return (
         <div className={classes.Burger}>
-            {/* <p>your perfect burger</p> */}
-            {/* <span>Final Price: {Number(props.finalPrice.toFixed(2))}$</span> */}
-            <BurgerIngredients type='bread-top'></BurgerIngredients>
-            {transformedIngredients}
-            <BurgerIngredients type='bread-bottom'></BurgerIngredients>
+            <p>your perfect burger</p>
+            <span>Final Price: {Number(props.finalPrice.toFixed(2))}$</span>
+            {/* <div className={classes.BurgerIng}> */}
+                <BurgerIngredients type='bread-top'>
+                </BurgerIngredients>
+                {transformedIngredients}
+                <BurgerIngredients type='bread-bottom'>
+                </BurgerIngredients>
+            {/* </div> */}
         </div>
     )
 }

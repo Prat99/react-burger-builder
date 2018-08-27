@@ -10,4 +10,7 @@
     display: block;
     margin-top: 60px;
 }
-
+.BurgerIng {
+    display:block;
+    box-sizing: border-box;
+}

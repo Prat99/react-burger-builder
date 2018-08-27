@@ -12,7 +12,8 @@ const Input = (props) => {
     }
     switch (props.elementtype) {
         case 'input':
-            input = <input {...props.elementconfig} className={inputClass.join(' ')}  onChange = {props.changed}/>
+            input = <input {...props.elementconfig} className={inputClass.join(' ')} 
+              onChange = {props.changed}/>
             break;
         case 'textarea':
             input = <textarea {...props.elementconfig} className={inputClass.join(' ')}  onChange={props.changed}/>
