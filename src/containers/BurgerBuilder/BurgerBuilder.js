@@ -7,8 +7,8 @@ import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import Spinner from '../../components/ui/Spinner/Spinner';
 
 // redux imports
-import * as actionType from '../../store/actions';
 import { connect } from 'react-redux';
+import * as burgerActions from '../../store/actions/';
 
 // const INGREDIENT_PRICE = {
 //     cheese: 0.4,
@@ -115,26 +115,26 @@ class BurgerBuilder extends Component {
         //         this.setState({ loading: false });
         //         console.log('some error occured', error);
         //     })
+        console.log('total price', this.props.totalPrice);
         let queryParams = [];
-        for (const key in this.props.ing) {
-            if (this.state.ingredients.hasOwnProperty(key)) {
-                queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(this.state.ingredients[key])}`)
-            }
-        }
-        queryParams.push('price='+this.props.totalPrice);
-        console.log('complete query params', queryParams);
-        const ingParams = queryParams.join('&');
-
+        // for (const key in this.props.ing) {
+        //     if (this.props.ing.hasOwnProperty(key)) {
+        //         queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(this.props.ing[key])}`)
+        //     }
+        // }
+        // queryParams.push('price='+this.props.totalPrice);
+        // console.log('complete query params', queryParams);
+        // const ingParams = queryParams.join('&');
         this.props.history.push({
             pathname: '/checkout',
-            search: '?' + ingParams
+            // search: '?' + ingParams
         }); <div>
 
         </div>
 
     }
     componentDidMount() {
-        console.log('burger builder!!!!!', this.props);
+        console.log('burger builder!!!!!', this.props); 
     }
     render() {
         let orderSummary = null;
@@ -152,7 +152,8 @@ class BurgerBuilder extends Component {
                 </Modal>
                 <Burger title='your burger'
                     ingredients={this.props.ing}
-                    finalPrice={this.props.totalPrice}>
+                    finalPrice={this.props.totalPrice}
+                >
                 </Burger>
                 <BuildControls
                     ingredientAdded={this.props.addIngredientHandler}
@@ -175,8 +176,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
     return {
-        addIngredientHandler: (ingName) => dispatch({type: actionType.ADD_INGREDIENT, payload: {ingredientName : ingName} }),
-        removeIngredientHandler: (ingName) => dispatch({ type: actionType.REMOVE_INGREDIENT, payload: { ingredientName: ingName } })
+        addIngredientHandler: (ingName) => dispatch(burgerActions.addIngredients(ingName)),
+        removeIngredientHandler: (ingName) => dispatch(burgerActions.removeIngredients(ingName))
     }
 }
 

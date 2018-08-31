@@ -3,6 +3,7 @@ import Button from '../../../components/ui/Button/Button';
 import classes from './CustomerInfo.css';
 import axios from '../../../axios-orders';
 import Input from '../../../components/ui/Input/Input';
+import { connect } from 'react-redux';
 class CustomerInfo extends Component {
     state = {
         orderForm: {
@@ -75,6 +76,7 @@ class CustomerInfo extends Component {
                 },
                 validationRules: {
                     required: true,
+                    regex: /\S+@\S+\.\S+/
                 },
                 isValid: false,
                 istouched: false,
@@ -91,7 +93,8 @@ class CustomerInfo extends Component {
         isFormValid: false
     }
     orderCompleteHandler = () => {
-        if(this.state.orderForm.isFormValid) {
+        this.checkFormValidty();
+        if (1) {
             this.setState({ loading: true });
             const customerData = {};
             for (const key in this.state.orderForm) {
@@ -101,7 +104,7 @@ class CustomerInfo extends Component {
             }
             const order = {
                 ingredients: this.props.ingredients,
-                price: this.props.price,
+                price: this.props.totalPrice,
                 customerData: customerData
             }
             axios.post('/order.json', order)
@@ -131,16 +134,25 @@ class CustomerInfo extends Component {
         if (rules.maxLength) {
             isValid = value.length <= rules.maxLength && isValid;
         }
+        if (rules.regex) {
+            isValid = rules.regex.test(value) && isValid;
+        }
+
         return isValid;
     }
 
     checkFormValidty = () => {
         const form = this.state.orderForm;
+
         for (const key in form) {
             if (!form[key].validationRules && form[key].isValid) {
-                this.setState({isFormValid: false});
+                this.setState({ isFormValid: false });
             } else {
-                this.setState({ isFormValid: true });
+                this.setState(prevState => {
+                    return {
+                        isFormValid: true
+                    }
+                });
             }
         }
     }
@@ -203,7 +215,8 @@ class CustomerInfo extends Component {
                     <Input inputtype="email" label='Email' type='email' placeholder='Enter your mail'/> */}
                     {formsElementArray}
                     <div style={{ color: '#000 !important' }}>
-                        <Button color='#679088' btnType={'Success'} continue={this.orderCompleteHandler}>Order</Button>
+                        <Button color='#679088' btnType={'Success'}
+                            continue={this.orderCompleteHandler}>Order</Button>
                     </div>
                 </form>
             </div>
@@ -211,4 +224,10 @@ class CustomerInfo extends Component {
     }
 }
 
-export default CustomerInfo;
+const mapState = state => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
+export default connect(mapState)(CustomerInfo);

@@ -3,6 +3,7 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import CustomerInfo from './CustomerInfo/CustomerInfo';
 import Modal from '../../components/ui/Modal/Modal';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 class Checkout extends Component {
     constructor(props) {
         super(props);
@@ -29,25 +30,26 @@ class Checkout extends Component {
 
 
     componentWillMount() {
-        console.log(this.props);
-        const ingredients = {}
-        const params = new URLSearchParams(this.props.location.search);
-        for (const pa of params) {
-            if (pa[0] === 'price') {
-                this.state.totalPrice = +pa[1];
-            } else {
-                ingredients[pa[0].toString()] = +pa[1];
-            }
-        }
-        this.setState(
-            { ingredients: ingredients }
-        );
+        console.log('checkout props', this.props);
+        //const ingredients = {}
+        // const params = new URLSearchParams(this.props.location.search);
+        // for (const pa of params) {
+        //     if (pa[0] === 'price') {
+        //         this.state.totalPrice = +pa[1];
+        //     } else {
+        //         ingredients[pa[0].toString()] = +pa[1];
+        //     }
+        // }
+
+        // this.setState(
+        //     { ingredients: ingredients }
+        // );
     }
     render() {
         return (
             <div>
                 <CheckoutSummary
-                    ingredients={this.state.ingredients}
+                    ingredients={this.props.ingredients}
                     continue={this.continueHandler}
                     close={this.closeHandler}>
                 </CheckoutSummary>
@@ -55,8 +57,9 @@ class Checkout extends Component {
                     render={() => (
                         <Modal show={this.continueHandler} cancelOrder={this.closeModalHandler}>
                             <CustomerInfo  {...this.props}
-                                ingredients={this.state.ingredients}
-                                price={this.state.totalPrice} />
+                                // ingredients={this.state.ingredients}
+                                // price={this.props.totalPrice} 
+                                />
                         </Modal>
                     )} />
             </div>
@@ -64,4 +67,10 @@ class Checkout extends Component {
     }
 }
 
-export default Checkout;
+const mapState = state => {
+   return {
+       ingredients: state.ingredients,
+       totalPrice: state.totalPrice
+   }
+}
+export default connect(mapState)(Checkout);

@@ -1,5 +1,5 @@
 
-import * as actionType from '../actions';
+import * as actionType from '../actions/actionTypes';
 
 const initialState = {
     ingredients: {
@@ -17,16 +17,16 @@ const INGREDIENT_PRICE = {
     meat: 0.5
 } // global variable
 
-const reducer = (state = initialState, action) => {
+const burgerReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionType.ADD_INGREDIENT:
             return {
                 ...state,
                 ingredients: {
                     ...state.ingredients,
-                    [action.payload.ingredientName] : state.ingredients[action.payload.ingredientName] + 1,
+                    [action.ingredientName] : state.ingredients[action.ingredientName] + 1,
                 },
-                totalPrice: state.totalPrice + INGREDIENT_PRICE[action.payload.ingredientName]
+                totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingredientName]
 
             }
         case actionType.REMOVE_INGREDIENT:
@@ -34,13 +34,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ingredients: {
                     ...state.ingredients,
-                    [action.payload.ingredientName] : state.ingredients[action.payload.ingredientName] - 1,
+                    [action.ingredientName] : state.ingredients[action.ingredientName] - 1,
                 },
-                totalPrice: state.totalPrice - INGREDIENT_PRICE[action.payload.ingredientName]
+                totalPrice: state.totalPrice - INGREDIENT_PRICE[action.ingredientName]
             }
         default:
             return state;
     }
 }
 
-export default reducer;
+export default burgerReducer;
