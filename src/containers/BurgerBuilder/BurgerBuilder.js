@@ -65,14 +65,14 @@ class BurgerBuilder extends Component {
     }
 
     updatePurchaseState = () => {
-        const ingredients = {...this.props.ing};
+        const ingredients = { ...this.props.ing };
         const sum = Object.keys(ingredients).map((igkey) => {
             return ingredients[igkey];
         }).reduce((acc, el) => {
             return acc + el
         }, 0);
         console.log('final sum of price', sum);
-           return sum > 0;
+        return sum > 0;
     }
 
     // isOrderPlaced(e) {
@@ -116,7 +116,7 @@ class BurgerBuilder extends Component {
         //         console.log('some error occured', error);
         //     })
         console.log('total price', this.props.totalPrice);
-        let queryParams = [];
+        // let queryParams = [];
         // for (const key in this.props.ing) {
         //     if (this.props.ing.hasOwnProperty(key)) {
         //         queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(this.props.ing[key])}`)
@@ -128,28 +128,24 @@ class BurgerBuilder extends Component {
         this.props.history.push({
             pathname: '/checkout',
             // search: '?' + ingParams
-        }); <div>
-
-        </div>
-
+        });
     }
     componentDidMount() {
-        console.log('burger builder!!!!!', this.props); 
+        console.log('burger builder!!!!!', this.props);
+        this.props.initIngredients();
     }
     render() {
         let orderSummary = null;
-        if (!this.state.loading) {
+        if (!this.state.loading && this.props.ing) {
             orderSummary = <OrderSummary ingredients={this.props.ing}
                 cancelOrder={this.cancelOrderHandler}
                 continueOrder={this.continueOrderHandler} />
         } else {
             orderSummary = <Spinner />
         }
-        return (
-            <Aux>
-                <Modal show={this.state.purchasing} cancelOrder={this.cancelOrderHandler}>
-                    {orderSummary}
-                </Modal>
+        let burger = this.props.error ? <p>Ingredients can't be loaded</p> : <h4 style={{color: 'black'}}>LOADING...</h4>
+        if (this.props.ing) {
+            burger = <Aux>
                 <Burger title='your burger'
                     ingredients={this.props.ing}
                     finalPrice={this.props.totalPrice}
@@ -162,22 +158,32 @@ class BurgerBuilder extends Component {
                     btnDisabled={this.updatePurchaseState()}
                     isOrdered={(event) => this.isOrderPlaced(event)} />
             </Aux>
+        }
+        return (
+            <Aux>
+                <Modal show={this.state.purchasing} cancelOrder={this.cancelOrderHandler}>
+                    {orderSummary}
+                </Modal>
+                {burger}
+            </Aux>
         );
     };
 }
 
 const mapState = state => {
-  return {
-      ing: state.ingredients,
-      totalPrice: state.totalPrice,
-      isPurchasable: state.isPurchasable
-  }
+    return {
+        ing: state.ingredients,
+        totalPrice: state.totalPrice,
+        isPurchasable: state.isPurchasable,
+        error: state.error
+    }
 }
 
 const mapDispatch = dispatch => {
     return {
         addIngredientHandler: (ingName) => dispatch(burgerActions.addIngredients(ingName)),
-        removeIngredientHandler: (ingName) => dispatch(burgerActions.removeIngredients(ingName))
+        removeIngredientHandler: (ingName) => dispatch(burgerActions.removeIngredients(ingName)),
+        initIngredients: () => dispatch(burgerActions.initIngredients())
     }
 }
 

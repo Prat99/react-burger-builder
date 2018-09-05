@@ -8,11 +8,15 @@ import registerServiceWorker from './registerServiceWorker';
 import burgerReducer from './store/reducer/burger.reducer';
 import ordersReducer from './store/reducer/orders.reducer';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import  thunk  from 'redux-thunk';
 
 
 //const rootReducer = combineReducers(burgerReducer, ordersReducer);
-const store = createStore(burgerReducer);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(burgerReducer, composeEnhancers(
+        applyMiddleware(thunk)
+));
 
 ReactDOM.render(
         <Provider store={store}>
