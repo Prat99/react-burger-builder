@@ -93,8 +93,8 @@ class Auth extends Component {
         }
         updatedFormElement.config = updatedFormElementConfig;
         updatedForm[id] = updatedFormElement;
-        console.log('updated form', updatedForm);
         this.setState({ loginForm: updatedForm, isFormValid: this.checkFormValidty()});
+        console.log('current state', this.state);
     }
 
     render() {
