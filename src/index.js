@@ -22,10 +22,10 @@ const store = createStore(rootReducer, composeEnhancers(
         applyMiddleware(thunk)
 ));
 
-let auth = localStorage.getItem('username')
+//let auth = localStorage.getItem('username')
 let token = localStorage.getItem('token');
 let app = null;
-if (auth && token) {
+if (token) {
         app = <App layout='user' />
 } else {
         app = <App layout='admin' />

@@ -18,7 +18,7 @@ class App extends Component {
           <Route path='/' exact component={Auth}></Route>
         </Switch>
       </AuthLayout>
-    } else if (this.props.layout === 'auth') {
+    } else if (this.props.layout === 'user') {
      lay = <Layout>
         <Switch>
           <Route path='/checkout' component={Checkout}></Route>

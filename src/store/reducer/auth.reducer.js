@@ -24,7 +24,7 @@ const authReducer = (state = initialState, action) => {
     case actions.AUTH_FAILED:
       return {
         ...state,
-        showLoader: true,
+        showLoader: false,
         error: true,
         token: null
       };

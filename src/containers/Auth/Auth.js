@@ -79,7 +79,7 @@ class Auth extends Component {
         } else isFormValid = false;
       }
     }
-    console.log("isFormValid!!!!!!!", isFormValid);
+    
     return isFormValid;
   }
 
@@ -104,7 +104,7 @@ class Auth extends Component {
     this.setState(prevState => {
       return { loginForm: updatedForm, isFormValid: formValidty };
     });
-    console.log("current state", this.state);
+    
   };
 
   loginBtnHandler = () => {
@@ -128,7 +128,7 @@ class Auth extends Component {
   };
 
   render() {
-      console.log('!!!!!!!!!!!',this.props)
+      console.log('!!!!!!!!!!!',this.props);
     let authForm = "";
     if (this.props.showLoader) {
       authForm = <Spinner />;
@@ -143,7 +143,12 @@ class Auth extends Component {
         />
       );
     }
-
+    if(this.props.error) {
+      alert('some error occured', this.props.error)
+    }
+    if(this.props.token) {
+      localStorage.setItem('token', this.props.token)
+    }
     return <div>{authForm}</div>;
   }
 }

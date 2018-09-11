@@ -40,15 +40,15 @@ export const authRegister = (email, password) => {
         dispatch(auth_success(response.data.idToken, response.data.localId));
       })
       .catch(error => {
-        console.log("error", error);
-        dispatch(auth_failed(error));
+        console.log("error", error.response);
+        dispatch(auth_failed(error.response.data.error));
       });
   };
 };
 
 export const authLogin = (email, password) => {
     return dispatch => {
-      dispatch(auth_start);
+      dispatch(auth_start());
       let authData = {
         email: email,
         password: password,
@@ -64,8 +64,8 @@ export const authLogin = (email, password) => {
           dispatch(auth_success(response.data.idToken, response.data.localId));
         })
         .catch(error => {
-          console.log("error", error);
-          dispatch(auth_failed(error));
+          console.log("error", error.response.data.error.message);
+          dispatch(auth_failed(error.response.data.error.message));
         });
     };
   };
