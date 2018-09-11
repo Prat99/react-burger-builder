@@ -3,6 +3,7 @@ import Aux from '../../hoc/Aux';
 import Input from '../ui/Input/Input';
 import classes from './AuthForm.css';
 const AuthForm = (props) => {
+    console.log('complete props in auth form', props);
     let form = '';
     if (props.formType === 'login') {
         form = <Aux>
@@ -28,7 +29,8 @@ const AuthForm = (props) => {
                         </div>
                         <button type='button'
                             className='btn btn-success'
-                            disabled={!props.BtnDisabled}>Submit</button>
+                            disabled={!props.btnDisabled}
+                            onClick = {props.loginBtn}>Submit</button>
                     </form>
                     <div>
                         <p>Not having account? <a href="JavaScript:void(0);" onClick={props.click}>Register</a></p>
@@ -40,20 +42,21 @@ const AuthForm = (props) => {
         form = <Aux>
             <h4>Register</h4>
             <form>
-                <div className='form-group'>
+                {/* <div className='form-group'>
                     <Input type='text'
                         id='name'
                         className='form-control'
                         elementtype='input'
                         label='Name'
                     />
-                </div>
+                </div> */} 
                 <div className='form-group'>
                     <Input type='text'
                         id='email'
                         className='form-control'
                         elementtype='input'
                         label='Email'
+                        changed={(event, id='email') => props.inputChange(event, id)}
                     />
                 </div>
                 <div className='form-group'>
@@ -62,17 +65,21 @@ const AuthForm = (props) => {
                         className='form-control'
                         elementtype='input'
                         label='Password'
+                        changed={(event, id = 'password') => props.inputChange(event, id)}
                     />
                 </div>
-                <div className='form-group'>
+                {/* <div className='form-group'>
                     <Input type='cpassword'
                         id='cpassword'
                         className='form-control'
                         elementtype='input'
                         label='Confirm Password'
                     />
-                </div>
-                <button type='button' className='btn btn-success' disabled={props.loginBtnDisabled}>Submit</button>
+                </div> */}
+                <button type='button' 
+                        className='btn btn-success' 
+                        disabled={!props.btnDisabled}
+                        onClick={props.loginBtn}>Submit</button>  
                 <div>
                     <p>Already having account? <a href="JavaScript:void(0);" onClick={props.click}>Login</a></p>
                 </div>

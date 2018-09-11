@@ -7,13 +7,18 @@ import registerServiceWorker from './registerServiceWorker';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 // redux imports
 import burgerReducer from './store/reducer/burger.reducer';
+import authReducer from './store/reducer/auth.reducer';
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-//const rootReducer = combineReducers(burgerReducer, ordersReducer);
+
+const rootReducer = combineReducers({
+        burgerBuilder: burgerReducer,
+        auth:  authReducer
+});
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(burgerReducer, composeEnhancers(
+const store = createStore(rootReducer, composeEnhancers(
         applyMiddleware(thunk)
 ));
 
