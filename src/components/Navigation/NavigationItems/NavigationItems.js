@@ -1,14 +1,20 @@
 import React from 'react';
 import classes from './NavigationItems.css';
-const NavigationItems = () => {
+import { Link } from 'react-router-dom'; 
+const NavigationItems = (props) => {
     return (
         <div className={classes.NavigationItems}>
             <ul>
-                <li><a href='/burger-builder'>Burger Builder</a></li>
-                <li><a href='/checkout'>Checkout</a></li>
+                <li><Link to='/burger-builder'>Burger Builder</Link></li>
+                <li><Link to='/checkout'>Checkout</Link></li>
+                {props.isAuth ? <li ><Link to='/logout'>logout</Link></li> : null}
             </ul>
         </div>
     );
 };
 
 export default NavigationItems;
+
+
+
+

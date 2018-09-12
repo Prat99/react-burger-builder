@@ -7,23 +7,25 @@ import Checkout from './containers/Checkout/Checkout';
 import Auth from './containers/Auth/Auth';
 import { Switch, Route } from 'react-router-dom';
 import Thankyou from './containers/Thankyou/Thankyou';
+import { connect } from 'react-redux';
+import Logout from './containers/Auth/Logout/Logout';
 
 class App extends Component {
   render() {
-    console.log(this.props);
     let lay = null;
-    if (this.props.layout === 'admin') {
+    if (!this.props.isAuthenticated) {
       lay = <AuthLayout >
         <Switch>
           <Route path='/' exact component={Auth}></Route>
         </Switch>
       </AuthLayout>
-    } else if (this.props.layout === 'user') {
-     lay = <Layout>
+    } else if (this.props.isAuthenticated) {
+      lay = <Layout>
         <Switch>
-          <Route path='/checkout' component={Checkout}></Route>
-          <Route path='/burger' exact component={BurgerBuilder}></Route>
+          <Route path='/checkout' exact component={Checkout}></Route>
+          <Route path='/burger-builder' exact component={BurgerBuilder}></Route>
           <Route path='/thankyou' exact component={Thankyou}></Route>
+          <Route path='/logout' exact component={Logout}></Route>
         </Switch>
       </Layout>
     }
@@ -31,8 +33,15 @@ class App extends Component {
       <div>
         {lay}
       </div>
-    );  
+    );
   }
 }
 
-export default App;
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  }
+}
+
+export default connect(mapStateToProps)(App);

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { connect } from "react-redux";
 import * as authActions from "../../store/actions/index";
+import { Redirect } from 'react-router-dom';
 import Spinner from "../../components/ui/Spinner/Spinner";
 class Auth extends Component {
   constructor(props) {
@@ -147,7 +148,7 @@ class Auth extends Component {
       alert('some error occured', this.props.error)
     }
     if(this.props.token) {
-      localStorage.setItem('token', this.props.token)
+      localStorage.setItem('token', this.props.token);
     }
     return <div>{authForm}</div>;
   }

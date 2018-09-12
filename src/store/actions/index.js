@@ -8,7 +8,8 @@ export {
     auth_start,
     auth_failed,
     authRegister,
-    authLogin
+    authLogin,
+    auth_logout
 } from './auth.actions';
 
 
