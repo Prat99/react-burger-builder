@@ -3,7 +3,7 @@ import * as actions from "../actions/actionTypes";
 const initialState = {
   token: null,
   showLoader: false,
-  error: false,
+  error: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -12,14 +12,14 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         showLoader: true,
-        error: false,
+        error: false
       };
     case actions.AUTH_SUCCESS:
       return {
         ...state,
         showLoader: false,
         error: false,
-        token: action.idToken,
+        token: action.idToken
       };
     case actions.AUTH_FAILED:
       return {
@@ -28,10 +28,16 @@ const authReducer = (state = initialState, action) => {
         error: true,
         token: null
       };
+    case actions.AUTH_LOGOUT:
+      return {
+        ...state,
+        showLoader: false,
+        error: false,
+        token: null
+      };
     default:
-     return state;  
+      return state;
   }
 };
-
 
 export default authReducer;
