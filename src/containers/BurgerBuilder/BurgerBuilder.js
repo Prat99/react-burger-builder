@@ -144,7 +144,7 @@ class BurgerBuilder extends Component {
             orderSummary = <Spinner />
         }
         let burger = this.props.error ? <p>Ingredients can't be loaded</p> : <h4 style={{color: 'black'}}>LOADING...</h4>
-        if (this.props.ing) {
+        if (this.props.ing && !this.props.error) {
             burger = <Aux>
                 <Burger title='your burger'
                     ingredients={this.props.ing}
@@ -172,10 +172,10 @@ class BurgerBuilder extends Component {
 
 const mapState = state => {
     return {
-        ing: state.ingredients,
-        totalPrice: state.totalPrice,
-        isPurchasable: state.isPurchasable,
-        error: state.error
+        ing: state.burgerBuilder.ingredients,
+        totalPrice: state.burgerBuilder.totalPrice,
+        isPurchasable: state.burgerBuilder.isPurchasable,
+        error: state.burgerBuilder.error
     }
 }
 

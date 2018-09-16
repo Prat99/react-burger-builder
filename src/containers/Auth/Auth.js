@@ -54,19 +54,15 @@ class Auth extends Component {
 
   checkValidty(rules, value) {
     let isValid = false;
-
     if (rules.required) {
       isValid = value.trim() !== "";
     }
-
     if (rules.regex) {
       isValid = rules.regex.test(value) && isValid;
     }
-
     if (rules.minLength) {
       isValid = value.length > rules.minLength && isValid;
     }
-
     return isValid;
   }
 
@@ -111,7 +107,7 @@ class Auth extends Component {
   loginBtnHandler = () => {
     const authState = { ...this.state };
     const loginData = { ...this.state.loginForm };
-    console.log("authState", authState);
+    //console.log("authState", authState);
     if (authState.type === "register")
       this.props.onAuthRegister(
         loginData.email.config.value,
@@ -122,18 +118,31 @@ class Auth extends Component {
         loginData.email.config.value,
         loginData.password.config.value
       );
-    if (this.props.token && !this.error) {
-      console.log(this.props.token);
-      localStorage.setItem("token", this.props.token);
-    }
   };
 
+  // componentDidUpdate() {
+  //   console.log('inside auth component did mount');
+  //   if(this.props.error) {
+  //     alert('some error occured', this.props.error)
+  //   }
+  //   if(this.props.token && !this.props.showLoader && !this.props.error) {
+  //     localStorage.setItem('token', this.props.token);
+  //     this.props.history.push('/burger');
+  //   }
+  // }
+
+
   render() {
-      console.log('!!!!!!!!!!!',this.props);
     let authForm = "";
     if (this.props.showLoader) {
       authForm = <Spinner />;
-    } else {
+    }
+    let authLogin = null;
+    if(this.props.isAuthenticated) {
+      localStorage.setItem('token', this.props.token);
+      authLogin = <Redirect to='/burger' />
+    }
+     else {
       authForm = (
         <AuthForm
           formType={this.state.type}
@@ -144,20 +153,18 @@ class Auth extends Component {
         />
       );
     }
-    if(this.props.error) {
-      alert('some error occured', this.props.error)
-    }
-    if(this.props.token) {
-      localStorage.setItem('token', this.props.token);
-    }
-    return <div>{authForm}</div>;
+    return <div>
+      {authLogin}
+    {authForm}
+    </div>;
   }
 }
 const mapState = state => {
   return {
     error: state.auth.error,
     showLoader: state.auth.showLoader,
-    token: state.auth.token
+    token: state.auth.token,
+    isAuthenticated: state.auth.token !== null
   };
 };
 

@@ -12,26 +12,28 @@ import Logout from './containers/Auth/Logout/Logout';
 
 class App extends Component {
   render() {
-    let lay = null;
-    if (!this.props.isAuthenticated) {
-      lay = <AuthLayout >
-        <Switch>
-          <Route path='/' exact component={Auth}></Route>
-        </Switch>
-      </AuthLayout>
-    } else if (this.props.isAuthenticated) {
-      lay = <Layout>
-        <Switch>
+  
+    // if (!this.props.isAuthenticated) {
+    //   console.log('inside unauthenticated');
+    //   lay = <AuthLayout >
+    //     <Switch>
+    //       <Route path='/' exact component={Auth}></Route>
+    //     </Switch>
+    //   </AuthLayout>
+    // } else if (this.props.isAuthenticated) {
+      let routes = (<Switch>
           <Route path='/checkout' exact component={Checkout}></Route>
-          <Route path='/burger-builder' exact component={BurgerBuilder}></Route>
           <Route path='/thankyou' exact component={Thankyou}></Route>
           <Route path='/logout' exact component={Logout}></Route>
-        </Switch>
-      </Layout>
-    }
+          <Route path='/burger' exact component={BurgerBuilder}></Route>
+          <Route path='/' exact component={Auth}></Route>
+        </Switch>)
+   // }
     return (
       <div>
-        {lay}
+       <Layout>
+         {routes}
+       </Layout>
       </div>
     );
   }
@@ -44,4 +46,5 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App);
+//export default connect(mapStateToProps)(App);
+export default App;

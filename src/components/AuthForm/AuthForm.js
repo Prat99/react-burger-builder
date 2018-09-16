@@ -3,7 +3,7 @@ import Aux from '../../hoc/Aux';
 import Input from '../ui/Input/Input';
 import classes from './AuthForm.css';
 const AuthForm = (props) => {
-    console.log('complete props in auth form', props);
+   // console.log('complete props in auth form', props);
     let form = '';
     if (props.formType === 'login') {
         form = <Aux>

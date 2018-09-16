@@ -69,8 +69,8 @@ class Checkout extends Component {
 
 const mapState = state => {
    return {
-       ingredients: state.ingredients,
-       totalPrice: state.totalPrice
+       ingredients: state.burgerBuilder.ingredients,
+       totalPrice: state.burgerBuilder.totalPrice
    }
 }
 export default connect(mapState)(Checkout);

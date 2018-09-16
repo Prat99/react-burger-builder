@@ -23,17 +23,17 @@ const store = createStore(rootReducer, composeEnhancers(
 ));
 
 //let auth = localStorage.getItem('username')
-let token = localStorage.getItem('token');
-let app = null;
-if (token) {
-        app = <App layout='user' />
-} else {
-        app = <App layout='admin' />
-}
+// let token = localStorage.getItem('token');
+// let app = null;
+// if (token) {
+//         app = <App layout='user' />
+// } else {
+//         app = <App layout='admin' />
+// }
 ReactDOM.render(
         <Provider store={store}>
                 <BrowserRouter>
-                        {app}
+                        <App />
                 </BrowserRouter>
         </Provider>,
         document.getElementById('root'));

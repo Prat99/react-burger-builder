@@ -5,7 +5,7 @@ const NavigationItems = (props) => {
     return (
         <div className={classes.NavigationItems}>
             <ul>
-                <li><Link to='/burger-builder'>Burger Builder</Link></li>
+                <li><Link to='/burger'>Burger Builder</Link></li>
                 <li><Link to='/checkout'>Checkout</Link></li>
                 {props.isAuth ? <li ><Link to='/logout'>logout</Link></li> : null}
             </ul>
